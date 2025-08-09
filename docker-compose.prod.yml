@@ -24,7 +24,7 @@ services:
       - ./nginx/certs:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c"
-    command: certonly --wwwroot -w /var/www/certbot --force-renew --email hongdat.dev@gmail.com -d grafana.hongdat.io.vn --agree-tos
+    command: certbot certonly --wwwroot -w /var/www/certbot --force-renew --email hongdat.dev@gmail.com -d grafana.hongdat.io.vn --agree-tos
     restart: unless-stopped
 
   # Monitoring service
