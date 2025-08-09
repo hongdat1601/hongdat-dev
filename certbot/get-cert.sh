@@ -1,12 +1,9 @@
 docker stop nginx
 
-docker run --rm -p 80:80 \
+docker run --rm \
   -v ./certbot/conf:/etc/letsencrypt \
   -v ./certbot/www:/var/www/certbot \
-  certbot/certbot certonly --standalone \
-  --preferred-challenges http \
-  --agree-tos \
-  --email hongdat.dev@gmail.com \
-  -d grafana.hongdat.io.vn
+  -v ./certbot/log:/var/log/letsencrypt \
+  certbot/certbot renew --quiet
 
-  docker start nginx
+docker start nginx
