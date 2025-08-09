@@ -40,7 +40,7 @@ services:
       - "9090"
     volumes:
       - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ./monitoring/prometheus/:/prometheus
+      - prometheus_data:/prometheus
     restart: unless-stopped
     networks:
       - monitor
@@ -65,10 +65,14 @@ services:
     ports:
       - "3000"
     volumes:
-      - ./monitoring/grafana/:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
     restart: unless-stopped
     networks:
       - monitor
+
+volumes:
+  prometheus_data:
+  grafana_data:
 
 networks:
   monitor:
