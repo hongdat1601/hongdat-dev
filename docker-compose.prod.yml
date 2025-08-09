@@ -6,24 +6,31 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
-    restart: always
+    restart: unless-stopped
 
   node_exporter:
-    image: prom/node_exporter:latest
+    image: quay.io/prometheus/node-exporter:latest
     container_name: node-exporter
     ports:
       - "9100:9100"
-    restart: always
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - '/:/host:ro,rslave'
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
-    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
 
 volumes:
   prometheus-data:
+  grafana_data:
   
